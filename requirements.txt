@@ -58,3 +58,4 @@ urllib3
 Werkzeug
 XlsxWriter
 opencv-python
+multiprocessing

@@ -19,21 +19,18 @@ class Model:
         with open('../config.yaml', "r") as f:
             self.config = yaml.safe_load(f)
         
+        # initialize model
         self.model = Sequential()
         self.initialize()
+
         self.threshold = self.config["threshold"]
         self.exp = 'multicam_lr{}_batchs{}_batchnorm{}_w0_{}'.format(self.config["learning_rate"], 
             self.config["mini_batch_size"], self.config["batch_norm"], self.config["weight_0"])
-        
-
-
 
     def initialize(self, is_training):
         # ========================================================================
         # VGG-16 FEATURE EXTRACTOR
         # ========================================================================
-        self.model = Sequential()
-        
         self.model.add(ZeroPadding2D((1, 1), input_shape=(224, 224, 20)))
         self.model.add(Conv2D(64, (3, 3), activation='relu', name='conv1_1'))
         self.model.add(ZeroPadding2D((1, 1)))
@@ -73,7 +70,6 @@ class Model:
         self.model.add(Flatten())
         self.model.add(Dense(self.config["num_features"], name='fc6', kernel_initializer='glorot_uniform'))
 
-        
         # ========================================================================
         # WEIGHT INITIALIZATION
         # ========================================================================
@@ -146,7 +142,7 @@ class Model:
                 predicted[i] = 1
 
         predicted = np.asarray(predicted).astype(int)
-        if predicted[0] == 1:
+        if predicted[0] == 0:
             return True
         else:
             return False

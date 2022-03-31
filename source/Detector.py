@@ -5,4 +5,6 @@ class FallDetector:
         self.model = Model()
 
     def detect(self, frames):
-        
+        # optical flow pipeline
+
+        # model prediction pipeline
