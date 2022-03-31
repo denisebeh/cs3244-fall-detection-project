@@ -1,0 +1,24 @@
+# ignore logs
+*.log
+
+# ignore images and pdf files
+*.png
+*.jpeg
+*.pdf
+
+# ignore large media files
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
+*.MTS
+
+# ignore csv and tsv data files
+*.csv
+*.tsv
+
+
+# ignore datasets
+datasets/

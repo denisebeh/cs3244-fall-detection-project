@@ -1,0 +1,3 @@
+[submodule "Fall-Detection-with-CNNs-and-Optical-Flow"]
+	path = Fall-Detection-with-CNNs-and-Optical-Flow
+	url = https://github.com/AdrianNunez/Fall-Detection-with-CNNs-and-Optical-Flow.git
