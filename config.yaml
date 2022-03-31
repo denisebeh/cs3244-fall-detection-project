@@ -20,3 +20,4 @@ use_validation_for_training: False
 validation_size: 200
 threshold: 0.5
 sliding_window_length: 10
+dataset: "UFRD"

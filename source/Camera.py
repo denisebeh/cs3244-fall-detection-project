@@ -39,7 +39,15 @@ class Camera(Process):
                 if (len(self.frames) > self.model.config["sliding_window_length"]):
                     self.frames.popleft();
 
-                self.detector.detect(self.frames)
+                if self.realtime:
+                    self.detector.detect(self.frames)
+                else:
+                    if self.detector.model.config["dataset"] == "UFRD":
+                        self.detector.process_ufrd()
+                    elif self.detector.model.config["dataset"] == "combined":
+                        self.detector.process_combined()
+                    else:
+                        print("Failed to process video dataset")
 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
