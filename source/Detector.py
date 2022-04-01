@@ -14,7 +14,7 @@ class FallDetector:
         features = self.get_features(end_idx)
 
         # model prediction pipeline
-        self.model.predict(features)
+        return self.model.predict(features)
 
     def get_features(self, end_idx):
         """

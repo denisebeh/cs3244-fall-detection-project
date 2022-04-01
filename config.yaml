@@ -25,3 +25,4 @@ camera_index: 0
 output_path: "/home/denise/cs3244-fall-detection-project/output_dir/"
 flow_path: "/home/denise/cs3244-fall-detection-project/flow_dir/"
 mean_file: "flow_mean.mat"
+persistent_update: 300
