@@ -1,5 +1,4 @@
 import os
-import yaml
 import h5py
 import numpy as np
 from matplotlib import pyplot as plt
@@ -15,20 +14,14 @@ from sklearn.model_selection import KFold, StratifiedShuffleSplit
 from keras.layers.advanced_activations import ELU
 
 class Model:
-    def __init__(self):
-        with open('../config.yaml', "r") as f:
-            self.config = yaml.safe_load(f)
-        
-        # initialize model
-        self.model = Sequential()
-        self.initialize()
-
+    def __init__(self, config):
+        self.config = config
         self.threshold = self.config["threshold"]
         self.exp = 'multicam_lr{}_batchs{}_batchnorm{}_w0_{}'.format(self.config["learning_rate"], 
             self.config["mini_batch_size"], self.config["batch_norm"], self.config["weight_0"])
 
-    def initialize(self, is_training):
-        # VGG-16 feature extractor
+        # initialize VGG16 feature extractor model
+        self.model = Sequential()
         self.model.add(ZeroPadding2D((1, 1), input_shape=(224, 224, 20)))
         self.model.add(Conv2D(64, (3, 3), activation='relu', name='conv1_1'))
         self.model.add(ZeroPadding2D((1, 1)))
@@ -120,11 +113,10 @@ class Model:
         self.classifier = Model(input=extracted_features, output=x, name='classifier')
         self.classifier.compile(optimizer=adam, loss='binary_crossentropy', metrics=['accuracy'])
 
-        if not is_training:
-            # load model from checkpoints
-            print("loading checkpoints...")
-            self.classifier = load_model(self.config["model_checkpoints_path"])
-            print("Checkpoints loaded.")
+        # load model from checkpoints
+        print("loading checkpoints...")
+        self.classifier = load_model(self.config["model_checkpoints_path"])
+        print("Checkpoints loaded.")
 
     def predict(self, input_features):
         """
