@@ -1,3 +1,5 @@
+tensorflow-gpu==1.15
+tensorboard
 absl-py
 astor
 backports.functools-lru-cache
@@ -48,9 +50,6 @@ six
 sklearn
 smart-open
 subprocess32
-tensorboard
-tensorflow
-tensorflow-gpu
 termcolor
 Theano
 typing
@@ -58,4 +57,5 @@ urllib3
 Werkzeug
 XlsxWriter
 opencv-python
-multiprocessing
+multiprocess
+thread6

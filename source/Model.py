@@ -3,15 +3,14 @@ import h5py
 import numpy as np
 from matplotlib import pyplot as plt
 
-from keras.models import load_model, Model, Sequential
-from keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Activation, Dense, Dropout, ZeroPadding2D
-from keras.optimizers import Adam
-from keras.layers.normalization import BatchNormalization 
-from keras.callbacks import EarlyStopping, ModelCheckpoint
-from keras import backend as K
+from tensorflow.keras.models import load_model, Model, Sequential
+from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Activation, Dense, Dropout, ZeroPadding2D
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.layers import BatchNormalization, ELU
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras import backend as K
 from sklearn.metrics import confusion_matrix, accuracy_score
 from sklearn.model_selection import KFold, StratifiedShuffleSplit
-from keras.layers.advanced_activations import ELU
 
 class Model:
     def __init__(self, config):
