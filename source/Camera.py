@@ -3,7 +3,7 @@ import cv2
 import yaml
 import time
 from collections import deque
-from Detector import FallDetector
+from .Detector import FallDetector
 from multiprocessing import Process
 
 class Camera(Process):
@@ -55,6 +55,7 @@ class Camera(Process):
                             # persistence message
                             elem = (self.index, False)
                             self.queue.put(elem)
+                            self.timer = time.time()
 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break

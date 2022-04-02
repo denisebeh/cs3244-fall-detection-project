@@ -1,4 +1,7 @@
+import sys
 import multiprocessing
+
+sys.path.append('../')
 from source.Camera import Camera
 from source.Monitor import Monitor
 
@@ -41,6 +44,6 @@ if __name__ == "__main__":
     single_camera_detection(0)
 
     # launch double camera fall detection system
-    idxs = [0, 1]
-    multi_camera_detection(idxs)
+    #idxs = [0, 1]
+    #multi_camera_detection(idxs)
 

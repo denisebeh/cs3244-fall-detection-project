@@ -2,7 +2,7 @@ import gc
 import cv2
 import numpy as np
 import scipy.io as sio
-from Model import Model
+from .Model import Model
 
 class FallDetector:
     def __init__(self, config):

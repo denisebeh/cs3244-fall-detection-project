@@ -1,3 +1,4 @@
+import time
 from multiprocessing import Process
 
 class Monitor(Process):
@@ -16,3 +17,5 @@ class Monitor(Process):
                     print(f"Possible fall detected in camera {idx}. Please check.")
                 else:
                     print(f"Camera {idx} health status message. No falls detected.")
+
+            time.sleep(1)
