@@ -12,7 +12,7 @@ for a in range(1,31):
     mode = 0o666
     path1 = os.path.join(parent_dir1, directory1)
     os.mkdir(path1, mode)
-    x = len(os.listdir('C:/Unu_Stuff/Y2S2/CS3244/Project/images/fall-' + k + '-cam' + cam + '-rgb'))
+    x = len(os.listdir('C:/Unu_Stuff/Y2S2/CS3244/Project/images/fall-' + k + '-cam' + cam + '-rgb')) + 1 
     for j in range(1, x):
         data = 'fall-' + k +'-cam' + cam + '-rgb-' + format(j, '03')
         directory = "fall[" + data + "]" #sub folder for each image
