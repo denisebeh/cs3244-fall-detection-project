@@ -193,9 +193,6 @@ for folder in folders: # folder = ADLs or Falls
                     
                 event_type = 'falls'
 
-                if not os.path.exists(output_path + 'Falls/{}'.format(event) + '/frame{}'.format(nb_image)):
-                        os.makedirs(output_path + 'Falls/{}'.format(event) + '/frame{}'.format(nb_image))
-                
                 if labels[event_type][event_id][nb_image] == 0: # ADL
                     if fall_detected:
                         # Create another folder for an ADL event,
@@ -256,31 +253,29 @@ for folder in folders: # folder = ADLs or Falls
 
             
                 elif labels[event_type][event_id][nb_image] == 1: # actual fall
-                    print("checkpoint 1 ..............")
 
+                    new_folder = (output_path +
+                                  #'NotFalls/notfall_{}_pre'.format(event_id))
+                                  'Falls/{}'.format(event) + 
+                                  '/frame{}'.format(nb_image))
+
+                    if not os.path.exists(new_folder):
+                            os.makedirs(new_folder)
+                                
+                    
                     # save original images
-                    save_path = (output_path + 
-                                #'Falls/fall_{}'.format(event_id) +
-                                'Falls/{}'.format(event) +
-                                '/frame{}'.format(nb_image) +
+                    save_path = (new_folder +
                                 '/frame_1.jpg')
-                    print("save_path: " + save_path)
                     cv2.imwrite(save_path,
                                 cv2.resize(x, (W,H)),
                                 [int(cv2.IMWRITE_JPEG_QUALITY), 95])
 
                     # save aug images
                     for idx, img in enumerate(aug_images):
-                        print("aug_images : " + str(img))
                         aug_x = cv2.imread(path_to_augmented + img)
 
-                        save_path = (output_path + 
-                                    #'Falls/fall_{}'.format(event_id) +
-                                    'Falls/{}'.format(event) +
-                                    '/frame{}'.format(nb_image) + 
+                        save_path = (new_folder + 
                                     '/frame_{}.jpg'.format(idx+2))
-
-                        print("next save_path : " + save_path )
 
                         cv2.imwrite(save_path,
                                     cv2.resize(aug_x, (W,H)),
