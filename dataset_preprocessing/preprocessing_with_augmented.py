@@ -155,14 +155,14 @@ for folder in folders: # folder = ADLs or Falls
                 aug_images = [f for f in os.listdir(path_to_augmented) 
                                 if os.path.isfile(os.path.join(path_to_augmented, f))]
 
-                if not os.path.exists(output_path + 'NotFalls/{}'.format(event) + '/frame{}'.format(nb_image)):
-                        os.makedirs(output_path + 'NotFalls/{}'.format(event) + '/frame{}'.format(nb_image))
+                if not os.path.exists(output_path + 'NotFalls/{}'.format(event) + '/frame{:04}'.format(nb_image)):
+                        os.makedirs(output_path + 'NotFalls/{}'.format(event) + '/frame{:04}'.format(nb_image))
                     
                 # Save original image
                 save_path = (output_path +
                     #'NotFalls/notfall_{}'.format(event_id) + 
                     'NotFalls/{}'.format(event) + 
-                    '/frame{}'.format(nb_image) +
+                    '/frame{:04}'.format(nb_image) +
                     '/frame_1.jpg')
 
                 cv2.imwrite(save_path,
@@ -176,7 +176,7 @@ for folder in folders: # folder = ADLs or Falls
                     save_path = (output_path +
                         #'NotFalls/notfall_{}'.format(event_id) + 
                         'NotFalls/{}'.format(event) + 
-                        '/frame{}'.format(nb_image) +
+                        '/frame{:04}'.format(nb_image) +
                         '/frame_{}.jpg'.format(idx+2))
 
                     cv2.imwrite(save_path,
@@ -201,7 +201,7 @@ for folder in folders: # folder = ADLs or Falls
                                     #'NotFalls/notfall_{}_post'.format(
                                     #event_id))
                                     'NotFalls/{}_post'.format(event) +
-                                    '/frame{}'.format(nb_image))
+                                    '/frame{:04}'.format(nb_image))
                         
                         if not os.path.exists(new_folder):
                             os.makedirs(new_folder) 
@@ -229,7 +229,7 @@ for folder in folders: # folder = ADLs or Falls
                         new_folder = (output_path +
                                     #'NotFalls/notfall_{}_pre'.format(event_id))
                                     'NotFalls/{}_pre'.format(event) + 
-                                    '/frame{}'.format(nb_image))
+                                    '/frame{:04}'.format(nb_image))
 
                         if not os.path.exists(new_folder):
                             os.makedirs(new_folder) 
@@ -257,7 +257,7 @@ for folder in folders: # folder = ADLs or Falls
                     new_folder = (output_path +
                                   #'NotFalls/notfall_{}_pre'.format(event_id))
                                   'Falls/{}'.format(event) + 
-                                  '/frame{}'.format(nb_image))
+                                  '/frame{:04}'.format(nb_image))
 
                     if not os.path.exists(new_folder):
                             os.makedirs(new_folder)
