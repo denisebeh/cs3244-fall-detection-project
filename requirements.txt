@@ -1,5 +1,6 @@
-# tensorflow-gpu==1.15
+tensorflow-gpu==2.3.0
 tensorboard
+matplotlib
 absl-py
 astor
 backports.functools-lru-cache
@@ -29,7 +30,6 @@ Keras-Applications
 Keras-Preprocessing
 kiwisolver
 Markdown
-matplotlib
 mock
 numpy
 pbr

@@ -22,7 +22,7 @@
 
 # ignore datasets
 datasets/
-
-
-
-
+save_features/
+plots/
+models/
+*.h5
