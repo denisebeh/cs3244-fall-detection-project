@@ -59,6 +59,18 @@
         "accuracy_mean": 90.74352234322193,
         "accuracy_std_dev": 7.890347943442115
     },
+    "200": {
+        "sensitivity_mean": 70.5,
+        "sensitivity_std_dev": 30.79520164643259,
+        "specificity_mean": 78.7067250298448,
+        "specificity_std_dev": 25.366991697879264,
+        "far_mean": 21.293274970155192,
+        "far_std_dev": 25.366991697879264,
+        "mdr_mean": 29.500000000000004,
+        "mdr_std_dev": 30.79520164643259,
+        "accuracy_mean": 78.24446113405934,
+        "accuracy_std_dev": 22.644052701702055
+    },
     "300": {
         "sensitivity_mean": 92.4,
         "sensitivity_std_dev": 6.7409198185410855,
@@ -70,5 +82,41 @@
         "mdr_std_dev": 6.740919818541088,
         "accuracy_mean": 89.1513330829891,
         "accuracy_std_dev": 17.629870653869517
+    },
+    "500": {
+        "sensitivity_mean": 99.0,
+        "sensitivity_std_dev": 1.0954451150103317,
+        "specificity_mean": 79.79307600477516,
+        "specificity_std_dev": 24.07162189925815,
+        "far_mean": 20.20692399522483,
+        "far_std_dev": 24.071621899258155,
+        "mdr_mean": 1.0,
+        "mdr_std_dev": 1.0954451150103324,
+        "accuracy_mean": 80.87495306045813,
+        "accuracy_std_dev": 22.67066740346738
+    },
+    "1000": {
+        "sensitivity_mean": 97.7,
+        "sensitivity_std_dev": 3.498253532518445,
+        "specificity_mean": 89.44289693593316,
+        "specificity_std_dev": 18.941833764065528,
+        "far_mean": 10.557103064066853,
+        "far_std_dev": 18.941833764065528,
+        "mdr_mean": 2.3,
+        "mdr_std_dev": 3.4982535325184445,
+        "accuracy_mean": 89.90799849793467,
+        "accuracy_std_dev": 17.810732245767404
+    },
+    "5000": {
+        "sensitivity_mean": 97.23333333333332,
+        "sensitivity_std_dev": 5.119244735961219,
+        "specificity_mean": 97.30202944687625,
+        "specificity_std_dev": 3.4261780668465738,
+        "far_mean": 2.6979705531237563,
+        "far_std_dev": 3.4261780668465724,
+        "mdr_mean": 2.7666666666666666,
+        "mdr_std_dev": 5.11924473596122,
+        "accuracy_mean": 97.2981599699587,
+        "accuracy_std_dev": 3.1464952679594003
     }
 }
