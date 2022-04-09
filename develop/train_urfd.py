@@ -11,6 +11,7 @@ import scipy.io as sio
 import cv2
 import glob
 import gc
+import json
 
 from tensorflow.keras.models import load_model, Model, Sequential
 from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Activation, Dense, Dropout, ZeroPadding2D
@@ -28,7 +29,7 @@ os.environ["CUDA_VISIBLE_DEVICES"]= "0"
 data_folder = 'C:/Users/sieni/optical_flow/'
 mean_file = 'C:/Users/sieni/cs3244-fall-detection-project/develop/flow_mean.mat'
 vgg_16_weights = 'C:/Users/sieni/cs3244-fall-detection-project/develop/weights.h5'
-save_features = True
+save_features = False
 save_plots = True
 
 # Set to 'True' if you want to restore a previous trained models
@@ -53,21 +54,17 @@ batch_norm = True
 learning_rate = 0.0001
 mini_batch_size = 64
 weight_0 = 1
-epochs = 3000
-use_validation = False
+epochs = 200
+use_validation = True
 # After the training stops, use train+validation to train for 1 epoch
-use_val_for_training = False
+use_val_for_training = True
 val_size = 100
 # Threshold to classify between positive and negative
 threshold = 0.5
 
 # Name of the experiment
-exp = 'urfd_lr{}_batchs{}_batchnorm{}_w0_{}'.format(
-    learning_rate,
-    mini_batch_size,
-    batch_norm,
-    weight_0
-)
+exp = 'urfd_lr{}_batchs{}_batchnorm{}_w0_{}_epochs{}_'.format(
+    learning_rate, mini_batch_size, batch_norm, weight_0, epochs)
         
 def plot_training_info(case, metrics, save, history):
     '''
@@ -80,13 +77,13 @@ def plot_training_info(case, metrics, save, history):
     * history: History object returned by the Keras fit function.
     '''
     val = False
-    if 'val_acc' in history and 'val_loss' in history:
+    if 'val_accuracy' in history and 'val_loss' in history:
         val = True
     plt.ioff()
     if 'accuracy' in metrics:     
         fig = plt.figure()
-        plt.plot(history['acc'])
-        if val: plt.plot(history['val_acc'])
+        plt.plot(history['accuracy'])
+        if val: plt.plot(history['val_accuracy'])
         plt.title('model accuracy')
         plt.ylabel('accuracy')
         plt.xlabel('epoch')
@@ -444,17 +441,17 @@ def main():
             ones.sort()
 
             trainval_split_0 = StratifiedShuffleSplit(n_splits=1,
-                            test_size=val_size/2,
+                            test_size=int(val_size/2),
                             random_state=7)
             indices_0 = trainval_split_0.split(X[zeroes,...],
                             np.argmax(_y[zeroes,...], 1))
             trainval_split_1 = StratifiedShuffleSplit(n_splits=1,
-                            test_size=val_size/2,
+                            test_size=int(val_size/2),
                             random_state=7)
             indices_1 = trainval_split_1.split(X[ones,...],
                             np.argmax(_y[ones,...], 1))
-            train_indices_0, val_indices_0 = indices_0.next()
-            train_indices_1, val_indices_1 = indices_1.next()
+            train_indices_0, val_indices_0 = next(indices_0)
+            train_indices_1, val_indices_1 = next(indices_1)
 
             X_train = np.concatenate([X[zeroes,...][train_indices_0,...],
                         X[ones,...][train_indices_1,...]],axis=0)
@@ -504,10 +501,10 @@ def main():
                     kernel_initializer='glorot_uniform')(x)
         x = Activation('sigmoid')(x)
         
-        classifier = Model(input=extracted_features,
-                output=x, name='classifier')
-        fold_best_model_path = best_model_path + 'urfd_fold_{}.h5'.format(
-                                fold_number)
+        classifier = Model(inputs=extracted_features,
+                outputs=x, name='classifier')
+        fold_best_model_path = best_model_path + 'urfd_fold_{}_{}.h5py'.format(
+                                epochs, fold_number)
         classifier.compile(optimizer=adam, loss='binary_crossentropy',
                 metrics=['accuracy'])
 
@@ -525,7 +522,7 @@ def main():
                         mode='auto')
                 c = ModelCheckpoint(fold_best_model_path, monitor=metric,
                             save_best_only=True,
-                            save_weights_only=False, mode='auto')
+                            save_weights_only=False, mode='auto', verbose=1)
                 callbacks = [e, c]
             validation_data = None
             if use_validation:
@@ -538,7 +535,7 @@ def main():
                 X_train, y_train, 
                 validation_data=validation_data,
                 batch_size=_mini_batch_size,
-                nb_epoch=epochs,
+                epochs=epochs,
                 shuffle=True,
                 class_weight=class_weight,
                 callbacks=callbacks
@@ -551,6 +548,7 @@ def main():
                     save_plots, history.history)
 
             if use_validation and use_val_for_training:
+                print("Using validation for training...")
                 classifier = load_model(fold_best_model_path)
 
                 # Use full training set (training+validation)
@@ -561,7 +559,7 @@ def main():
                     X_train, y_train, 
                     validation_data=validation_data,
                     batch_size=_mini_batch_size,
-                    nb_epoch=epochs,
+                    epochs=epochs,
                     shuffle='batch',
                     class_weight=class_weight,
                     callbacks=callbacks
@@ -600,8 +598,8 @@ def main():
         accuracy = accuracy_score(y_test, predicted)
         
         print('FOLD {} results:'.format(fold_number))
-        print('TP: {}, TN: {}, FP: {}, FN: {}'.format(tp,tn,fp,fn))
-        print('TPR: {}, TNR: {}, FPR: {}, FNR: {}'.format(
+        print('True Positive: {}, True Negative: {}, False Positive: {}, False Negative: {}'.format(tp,tn,fp,fn))
+        print('True Positive Rate: {}, True Negative Rate: {}, False Positive Rate: {}, False Negative Rate: {}'.format(
                         tpr,tnr,fpr,fnr))   
         print('Sensitivity/Recall: {}'.format(recall))
         print('Specificity: {}'.format(specificity))
@@ -617,17 +615,32 @@ def main():
         accuracies.append(accuracy)
         fold_number += 1
 
+    with open('./plots/results.json', "r") as f:
+        results = json.load(f)
+
+    if not results:
+        results = {}
+    
+    results[str(epochs)] = {}
+    results[str(epochs)]["sensitivity_mean"] = np.mean(sensitivities)*100.
+    results[str(epochs)]["sensitivity_std_dev"] = np.std(sensitivities)*100.
+    results[str(epochs)]["specificity_mean"] = np.mean(specificities)*100.
+    results[str(epochs)]["specificity_std_dev"] = np.std(specificities)*100.
+    results[str(epochs)]["far_mean"] = np.mean(fars)*100.
+    results[str(epochs)]["far_std_dev"] = np.std(fars)*100.
+    results[str(epochs)]["mdr_mean"] = np.mean(mdrs)*100.
+    results[str(epochs)]["mdr_std_dev"] = np.std(mdrs)*100.
+    results[str(epochs)]["accuracy_mean"] = np.mean(accuracies)*100.
+    results[str(epochs)]["accuracy_std_dev"] = np.std(accuracies)*100.
+    with open('./plots/results.json', "w") as f:
+        json.dump(results, f, indent=4)
+
     print('5-FOLD CROSS-VALIDATION RESULTS ===================')
-    print("Sensitivity: %.2f%% (+/- %.2f%%)" % (np.mean(sensitivities)*100.,
-                        np.std(sensitivities)*100.))
-    print("Specificity: %.2f%% (+/- %.2f%%)" % (np.mean(specificities)*100.,
-                        np.std(specificities)*100.))
-    print("FAR: %.2f%% (+/- %.2f%%)" % (np.mean(fars)*100.,
-                    np.std(fars)*100.))
-    print("MDR: %.2f%% (+/- %.2f%%)" % (np.mean(mdrs)*100.,
-                    np.std(mdrs)*100.))
-    print("Accuracy: %.2f%% (+/- %.2f%%)" % (np.mean(accuracies)*100.,
-                        np.std(accuracies)*100.))
+    print("Sensitivity: %.2f%% (+/- %.2f%%)" % (results[str(epochs)]["sensitivity_mean"], results[str(epochs)]["sensitivity_std_dev"]))
+    print("Specificity: %.2f%% (+/- %.2f%%)" % (results[str(epochs)]["specificity_mean"], results[str(epochs)]["specificity_std_dev"]))
+    print("FAR: %.2f%% (+/- %.2f%%)" % (results[str(epochs)]["far_mean"], results[str(epochs)]["far_std_dev"]))
+    print("MDR: %.2f%% (+/- %.2f%%)" % (results[str(epochs)]["mdr_mean"], results[str(epochs)]["mdr_std_dev"]))
+    print("Accuracy: %.2f%% (+/- %.2f%%)" % (results[str(epochs)]["accuracy_mean"], results[str(epochs)]["accuracy_std_dev"]))
     
 if __name__ == '__main__':
     if not os.path.exists(best_model_path):

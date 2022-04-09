@@ -1,0 +1,74 @@
+{
+    "5": {
+        "sensitivity_mean": 95.96666666666665,
+        "sensitivity_std_dev": 1.6911534525287777,
+        "specificity_mean": 98.84401114206128,
+        "specificity_std_dev": 0.29907084511719667,
+        "far_mean": 1.1559888579387188,
+        "far_std_dev": 0.29907084511719567,
+        "mdr_mean": 4.033333333333334,
+        "mdr_std_dev": 1.6911534525287764,
+        "accuracy_mean": 98.6819376642884,
+        "accuracy_std_dev": 0.21064089995241211
+    },
+    "10": {
+        "sensitivity_mean": 88.00000000000001,
+        "sensitivity_std_dev": 8.381858717227077,
+        "specificity_mean": 98.15957023477914,
+        "specificity_std_dev": 2.883680421439154,
+        "far_mean": 1.8404297652208517,
+        "far_std_dev": 2.8836804214391556,
+        "mdr_mean": 12.000000000000002,
+        "mdr_std_dev": 8.381858717227079,
+        "accuracy_mean": 97.58730754787834,
+        "accuracy_std_dev": 2.393110243896688
+    },
+    "20": {
+        "sensitivity_mean": 76.2,
+        "sensitivity_std_dev": 5.4184868736576295,
+        "specificity_mean": 97.51691205730204,
+        "specificity_std_dev": 2.5845794324534777,
+        "far_mean": 2.4830879426979706,
+        "far_std_dev": 2.5845794324534763,
+        "mdr_mean": 23.799999999999997,
+        "mdr_std_dev": 5.418486873657627,
+        "accuracy_mean": 96.31618475403681,
+        "accuracy_std_dev": 2.1805231546138804
+    },
+    "50": {
+        "sensitivity_mean": 65.73333333333333,
+        "sensitivity_std_dev": 12.235013508597184,
+        "specificity_mean": 92.60644647831278,
+        "specificity_std_dev": 10.458093171129047,
+        "far_mean": 7.393553521687227,
+        "far_std_dev": 10.458093171129047,
+        "mdr_mean": 34.266666666666666,
+        "mdr_std_dev": 12.235013508597183,
+        "accuracy_mean": 91.09275253473527,
+        "accuracy_std_dev": 9.403294563864522
+    },
+    "100": {
+        "sensitivity_mean": 59.4,
+        "sensitivity_std_dev": 9.645148463807537,
+        "specificity_mean": 92.61440509351374,
+        "specificity_std_dev": 8.837446876978028,
+        "far_mean": 7.385594906486273,
+        "far_std_dev": 8.837446876978024,
+        "mdr_mean": 40.6,
+        "mdr_std_dev": 9.645148463807537,
+        "accuracy_mean": 90.74352234322193,
+        "accuracy_std_dev": 7.890347943442115
+    },
+    "300": {
+        "sensitivity_mean": 92.4,
+        "sensitivity_std_dev": 6.7409198185410855,
+        "specificity_mean": 88.95742140867489,
+        "specificity_std_dev": 18.909911932820965,
+        "far_mean": 11.04257859132511,
+        "far_std_dev": 18.909911932820965,
+        "mdr_mean": 7.6,
+        "mdr_std_dev": 6.740919818541088,
+        "accuracy_mean": 89.1513330829891,
+        "accuracy_std_dev": 17.629870653869517
+    }
+}

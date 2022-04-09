@@ -1,11 +1,6 @@
 # ignore logs
 *.log
 
-# ignore images and pdf files
-*.png
-*.jpeg
-*.pdf
-
 # ignore large media files
 *.mp4
 *.tiff
@@ -19,10 +14,10 @@
 *.csv
 *.tsv
 
-
 # ignore datasets
 datasets/
 save_features/
-plots/
 models/
 *.h5
+*.h5py
+*.zip
