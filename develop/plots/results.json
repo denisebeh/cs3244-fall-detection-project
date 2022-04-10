@@ -119,6 +119,18 @@
         "accuracy_mean": 89.83665039429216,
         "accuracy_std_dev": 13.196611351728812
     },
+    "3000": {
+        "sensitivity_mean": 94.80000000000001,
+        "sensitivity_std_dev": 10.316868603300993,
+        "specificity_mean": 76.0982888977318,
+        "specificity_std_dev": 18.177127575958824,
+        "far_mean": 23.901711102268205,
+        "far_std_dev": 18.177127575958824,
+        "mdr_mean": 5.2,
+        "mdr_std_dev": 10.316868603300994,
+        "accuracy_mean": 77.15170859932407,
+        "accuracy_std_dev": 16.786011128905145
+    },
     "5000": {
         "sensitivity_mean": 97.23333333333332,
         "sensitivity_std_dev": 5.119244735961219,

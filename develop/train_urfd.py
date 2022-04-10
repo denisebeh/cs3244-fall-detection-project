@@ -54,7 +54,7 @@ batch_norm = True
 learning_rate = 0.0001
 mini_batch_size = 64
 weight_0 = 1
-epochs = 2000
+epochs = 3000
 use_validation = True
 # After the training stops, use train+validation to train for 1 epoch
 use_val_for_training = True
