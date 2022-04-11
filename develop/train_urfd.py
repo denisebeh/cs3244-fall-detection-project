@@ -51,10 +51,10 @@ frames = ['frame_1', 'frame_2', 'frame_3', 'frame_4', 'frame_5']
 L = 10
 num_features = 4096
 batch_norm = True
-learning_rate = 0.0001
+learning_rate = 0.01 # original: 0.0001
 mini_batch_size = 64
 weight_0 = 1
-epochs = 3000
+epochs = 25
 use_validation = True
 # After the training stops, use train+validation to train for 1 epoch
 use_val_for_training = True
