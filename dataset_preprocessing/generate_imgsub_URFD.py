@@ -13,14 +13,12 @@ import numpy as np
 import argparse
 import datetime
 import time
-#matplotlib inline
 
-#sys.path.append('/usr/local/lib/python2.7/site-packages/') #append sys path not needed as imported packages
 
 ### settings ###
-data_folder = 'C:/Users/lzyda/Desktop/Uni Readings/Y2S2/CS3244/Fall-Detection-with-CNNs-and-Optical-Flow-master/URFD_images'  #insert your folder
-output_path = 'C:/Users/lzyda/Desktop/Uni Readings/Y2S2/CS3244/Fall-Detection-with-CNNs-and-Optical-Flow-master/URFD_imgsub_test'  #insert output folder
-thresh_level = 15
+data_folder = 'C:/Users/lzyda/Desktop/Uni Readings/Y2S2/CS3244/cs3244-fall-detection-project/URFD_images'  #insert your folder
+output_path = 'C:/Users/lzyda/Desktop/Uni Readings/Y2S2/CS3244/cs3244-fall-detection-project/URFD_imgsub_xy'  #insert output folder
+thresh_level = 20
 ################
 
 # init vars
@@ -51,56 +49,50 @@ for folder in folders: #iterate through folders fall and non-fall
                 prevFrame_flag = True
                 
                 for i, file in enumerate([f for f in os.listdir(path)]): #iterate through all images in said folder
-                        
                         try:
                                 thisFrame = cv2.imread(path + '/' + file)
                                 thisFrame_gr = cv2.cvtColor(thisFrame, cv2.COLOR_BGR2GRAY) #grayscale
-                                thisFrame_gr_blur = cv2.GaussianBlur(thisFrame_gr, (21, 21), 0) # gaussian blur to reduce noice
-                                thisFrame_box = cv2.cvtColor(thisFrame, cv2.COLOR_BGR2GRAY)
+                                thisFrame_gr_blur = cv2.GaussianBlur(thisFrame_gr, (9, 9), 0) # gaussian blur to reduce noice
+                                
                                 #print("processed")
 
-                                #edge case: check if prevFrame is empty. If empty, fill it with currframe and go to next frame
-                                if prevFrame_flag:
-                                        prevFrame = thisFrame
-                                        prevFrame_gr_blur = thisFrame_gr_blur
-                                        prevFrame_flag = False
-                                        continue
-
-                                # compute image diff
-                                frameDelta1 = cv2.subtract(prevFrame_gr_blur, thisFrame_gr_blur) #forward diff
-                                #frameDelta2 = cv2.subtract(thisFrame_gr_blur, prevFrame_gr_blur) #backward diff
-                                frameDelta = cv2.max(0, frameDelta1)
-                                #print("subtracted")
-
-                                # set threshold
-                                thresh = cv2.threshold(frameDelta, thresh_level, 255, cv2.THRESH_BINARY)[1]
-                                # dilate image to fill in holes
-                                thresh = cv2.dilate(thresh, None, iterations = 2)
-                                # find contours of dilated image
-                                (cnts, _) = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-
-                                # convert to a scalar
-                                thresh_ones = np.zeros(thresh.shape)
-                                thresh_ones[thresh_level==255] = 1
-                                #movement_graph[i] = np.sum(thresh_ones)
-
-                                # write images to directory
-                                imsave(imagesub + '/' + 'sub' + str(i) + file , thresh)
-                                print(file)
-
-                                ## lmk if you want save the prev / gr / delta frames but dk how
-
-                                # next loop prep
-                                prevFrame = thisFrame
-                                prevFrame_gr_blur = thisFrame_gr_blur
+                                
                                 
                         except:
                                 print("file error - skipping")
                                 continue
-                        
+
+
+                        #edge case: check if prevFrame is empty. If empty, fill it with currframe and go to next frame
+                        if prevFrame_flag:
+                                prevFrame = thisFrame
+                                prevFrame_gr_blur = thisFrame_gr_blur
+                                prevFrame_flag = False
+                                continue
+
+                        # compute image diff
+                        frameDelta1 = cv2.subtract(prevFrame_gr_blur, thisFrame_gr_blur) #forward diff
+                        #frameDelta2 = cv2.GaussianBlur(frameDelta1, (9,9), cv2.BORDER_DEFAULT) #backward diff
+                        #frameDelta = cv2.max(0, frameDelta1)
+                        #print("subtracted")
+
+                        # set threshold
+                        thresh = cv2.threshold(frameDelta1, thresh_level, 255, cv2.THRESH_BINARY)[1]
+                        # dilate image to fill in holes
+                        thresh = cv2.dilate(thresh, np.ones((3,3), np.uint8), iterations = 1)
+
+                        # write images to directory
+                        imsave(imagesub + '/' + str(i) + 'x' + ".jpg", thresh)
+                        imsave(imagesub + '/'+ str(i)  + 'y' + ".jpg", thresh)
                         print(file)
 
+                        ## lmk if you want save the prev / gr / delta frames but dk how
+
+                        # next loop prep
+                        prevFrame = thisFrame
+                        prevFrame_gr_blur = thisFrame_gr_blur
+                                
+                        print(file)
                         
 
                 
